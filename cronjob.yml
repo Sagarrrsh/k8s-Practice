@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob-example
+spec:
+  schedule: "*/1 * * * *"   # Run every 1 minute
+  jobTemplate:
+    spec:
+      completions: 2         # Job needs 2 successful completions
+      parallelism: 2         # Run 2 pods in parallel
+      template:
+        metadata:
+          name: counter
+        spec:
+          containers:
+          - name: counter
+            image: ubuntu
+            command: ["bash", "-c", "for i in {1..10}; do echo $i; done"]
+          restartPolicy: Never
