@@ -1,3 +1,4 @@
+# busybox-pod.yml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -8,4 +9,17 @@ spec:
   containers:
   - name: busybox
     image: busybox
-    command: ['sh', '-c', "echo Busybox Pod Running; sleep 3600"]
+    command: ["sh", "-c", "sleep 3600"]
+---
+# busybox-svc.yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: busybox-svc
+spec:
+  selector:
+    app: busybox
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
