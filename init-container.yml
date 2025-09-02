@@ -1,24 +1,25 @@
+# busybox-pod.yml
 apiVersion: v1
 kind: Pod
 metadata:
-  name: init-pod
+  name: busybox-pod
+  labels:
+    app: busybox
 spec:
-  initContainers:
-  - name: wait-for-busybox
-    image: busybox
-    command:
-      - sh
-      - -c
-      - |
-        echo "Waiting for busybox-pod..."
-        until nslookup busybox-pod.default.svc.cluster.local 2>/dev/null; do
-          echo "Still waiting..."
-          sleep 2
-        done
-        echo "Busybox pod is up!"
-
   containers:
-  - name: main-container
-    image: nginx
-    ports:
-    - containerPort: 80
+  - name: busybox
+    image: busybox
+    command: ["sh", "-c", "sleep 3600"]
+---
+# busybox-svc.yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: busybox-svc
+spec:
+  selector:
+    app: busybox
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
