@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: service-loadbalancer-quota
+  namespace: dev
+spec:
+  hard:
+    services.loadbalancers: "2"   # only 2 LoadBalancer services allowed

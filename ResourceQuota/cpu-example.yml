@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: compute-resources
+  namespace: dev
+spec:
+  hard:
+    requests.cpu: "2"        # total CPU requested by all pods
+    requests.memory: 1Gi     # total memory requested by all pods
+    limits.cpu: "4"          # max CPU across namespace
+    limits.memory: 2Gi       # max memory across namespace
