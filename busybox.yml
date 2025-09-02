@@ -1,9 +1,11 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: dependent-pod
+  name: busybox-pod
+  labels:
+    app: busybox
 spec:
   containers:
-  - name: busybox-container
+  - name: busybox
     image: busybox
-    command: ['sh', '-c', "echo Dependent pod is running; sleep 3600"]
+    command: ['sh', '-c', "echo Busybox Pod Running; sleep 3600"]
