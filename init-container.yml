@@ -4,9 +4,18 @@ metadata:
   name: init-pod
 spec:
   initContainers:
-  - name: init-container
+  - name: wait-for-busybox
     image: busybox
-    command: ['sh', '-c', "echo Init container finished; sleep 2"]
+    command:
+      - sh
+      - -c
+      - |
+        echo "Waiting for busybox-svc..."
+        until nslookup busybox-svc.default.svc.cluster.local 2>/dev/null; do
+          echo "Still waiting..."
+          sleep 2
+        done
+        echo "Busybox service is up!"
   containers:
   - name: main-container
     image: nginx
