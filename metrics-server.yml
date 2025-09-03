@@ -18,5 +18,32 @@ spec:
       - name: metrics-server
         image: registry.k8s.io/metrics-server/metrics-server:v0.7.2
         args:
-        - --kubelet-insecure-tls
-        - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+          - --kubelet-insecure-tls
+          - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+          - --cert-dir=/tmp
+          - --secure-port=4443
+        ports:
+          - name: https
+            containerPort: 4443
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: https
+            scheme: HTTPS
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /livez
+            port: https
+            scheme: HTTPS
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        securityContext:
+          readOnlyRootFilesystem: true
+        volumeMounts:
+          - name: tmp-dir
+            mountPath: /tmp
+      volumes:
+        - name: tmp-dir
+          emptyDir: {}
