@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-production
+spec:
+  nodeSelector:
+    env: production   
+  containers:
+    - name: nginx
+      image: nginx
+
+
+#kubectl label node node1 env=production --overwrite
