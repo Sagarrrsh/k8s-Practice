@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: multi-port-service
+spec:
+  selector:
+    app: multi-port-app
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80       # Service port
+      targetPort: http   # maps to containerPort 8080 by name
+    - name: custom
+      protocol: TCP
+      port: 9090     # Service port
+      targetPort: custom # maps to containerPort 9090 by name
