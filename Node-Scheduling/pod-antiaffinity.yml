@@ -1,27 +1,18 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Pod
 metadata:
-  name: web-deployment
+  name: mypod
 spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: web
-  template:
-    metadata:
-      labels:
-        app: web
-    spec:
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                      - web
-              topologyKey: "kubernetes.io/hostname"  # spread across nodes
-      containers:
-        - name: nginx
-          image: nginx
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - nginx
+        topologyKey: "kubernetes.io/hostname"
+  containers:
+  - name: pause
+    image: k8s.gcr.io/pause:3.9
